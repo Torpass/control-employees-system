@@ -2,7 +2,6 @@
 <br>
 <div class="card">
     <div class="card-header">
-        Empleados
         <a name="" id="" class="btn btn-primary" href="create.php" role="button">Add employee</a>
     </div>
     <div class="card-body">
@@ -25,7 +24,11 @@
                         <td>cv.pdf</td>
                         <td>Programador jr</td>
                         <td>05/01/2024</td>
-                        <td>Cartar|Edit|Delete</td>
+                        <td>
+                            <a name="" id="" class="btn btn-primary" href="#" role="button">Carta</a> |
+                            <a name="" id="" class="btn btn-info" href="#" role="button">Edit</a> |
+                            <a name="" id="" class="btn btn-danger" href="#" role="button">Delete</a>
+                        </td>
                     </tr>
 
                 </tbody>
