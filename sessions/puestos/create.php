@@ -10,7 +10,6 @@ if(isset($_POST['btnRegister'])){
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_OBJ); 
         header('Location:index.php');
-        
     }else{
         echo 'You need to add a valid Job name';
     }

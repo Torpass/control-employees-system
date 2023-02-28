@@ -1,4 +1,28 @@
 <?php include('../../templates/header.php');?>
+<?php include '../../db.php'?> 
+
+
+
+
+<?php
+if(isset($_GET['txtID'])){
+    $deleteID = $_GET['txtID'];
+    $query = $connection->prepare("DELETE FROM tbl_users WHERE id=$deleteID");
+    $query->execute();
+    if($query){
+        header('Location:index.php');
+    }else{
+        echo 'there was a problem';
+    }
+}
+
+$query = $connection->prepare("SELECT * FROM tbl_users");
+$query->execute();
+$tbl_users= $query->fetchAll(PDO::FETCH_ASSOC);
+
+
+?>
+
 
 <br>
 
@@ -18,19 +42,21 @@
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
+            <?php foreach ($tbl_users as $userRegister){?>
             <tbody>
                 <tr class="">
-                    <td scope="row">1</td>
-                    <td>Torpas</td>
-                    <td>*******</td>
-                    <td>pastor.jimenez.0806@gmail.com</td>
+                    <td scope="row"><?php echo $userRegister['id'];?></td>
+                    <td><?php echo $userRegister['name'];?></td>
+                    <td><?php echo $userRegister['password'];?></td>
+                    <td><?php echo $userRegister['email'];?></td>
                     <td>
-                            <a name="" id="" class="btn btn-info" href="#" role="button">Edit</a>
+                            <a name="" id="" class="btn btn-info" href="edit.php?txtID=<?php echo $userRegister['id']?>" role="button">Edit</a>
                             |
-                            <a name="" id="" class="btn btn-danger" href="#" role="button">Delete</a>
+                            <a name="" id="" class="btn btn-danger" href="index.php?txtID=<?php echo $userRegister['id']?>" role="button">Delete</a>
                         </td>
                 </tr>
             </tbody>
+            <?php }?>
         </table>
     </div>
     </div>
