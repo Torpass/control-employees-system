@@ -35,7 +35,10 @@ $tbl_employees= $query->fetchAll(PDO::FETCH_ASSOC);
                         <td scope="row"><?php echo $employeesRegister['id'];?></td>
                         <td><?php echo $employeesRegister['firstName'];?></td>
                         <td><?php echo $employeesRegister['lastName'];?></td>
-                        <td><?php echo $employeesRegister['photo'];?></td>
+                        <td>
+                            <img src="./employess_photos/<?php echo $employeesRegister['photo'];?>" class="img-fluid rounded" width="150" alt="">
+                            
+                        </td>
                         <td><?php echo $employeesRegister['cv'];?></td>
                         <td><?php echo $employeesRegister['idJob'];?></td>
                         <td><?php echo $employeesRegister['startedAt'];?></td>
