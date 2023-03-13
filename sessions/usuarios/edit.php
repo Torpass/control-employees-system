@@ -34,6 +34,12 @@ if(isset($_GET['txtID'])){
     </div>
     <div class="card-body">
         <form action="" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+              <label for="" class="form-label">ID:</label>
+              <input type="text" 
+                class="form-control" readonly name="txtName" id="" aria-describedby="helpId" placeholder="Write name" value="<?php echo $idEdit?>">
+            </div>
+
             <div class="mb-3">
               <label for="" class="form-label">Name:</label>
               <input type="text" 
