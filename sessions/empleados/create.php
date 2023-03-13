@@ -11,6 +11,7 @@ $tbl_jobs = $query->fetchAll(PDO::FETCH_ASSOC);
 if(isset($_POST['btnRegister'])){
   if(!empty($_POST['txtFirstname']) && !empty($_POST['txtLastname']) && !empty($_POST['txtRole']) && !empty($_POST['TxtDateEntry'])){
     if(!empty($_FILES['photo']['name']) && !empty($_FILES['cv']['name'])){
+      //recepción de datos
       $firstName = $_POST['txtFirstname'];
       $lastName = $_POST['txtLastname'];
       $roleID = $_POST['txtRole'];
@@ -18,25 +19,32 @@ if(isset($_POST['btnRegister'])){
       $photoName = $_FILES['photo']['name'];
       $cvName = $_FILES['cv']['name'];
 
-      $photoDate = new DateTime();
-      $archivePhotoName = ($photoName!='')?$photoDate->getTimestamp().'_'.$_FILES['photo']['name']:'';
+      $dateFile = new DateTime();
+
+      //preparando los nombres que van a tener los archivos (El nombre del archivo origianl + la fecha de ingreso)
+
+      $archivePhotoName = ($photoName!='')?$dateFile->getTimestamp().'_'.$_FILES['photo']['name']:'';
       $photoTmp=$_FILES['photo']['tmp_name']; 
 
-      if($photoTmp != ''){
-        move_uploaded_file($photoTmp,"./".$archivePhotoName);
-      }
+      $fileCvName = ($cvName!='')?$dateFile->getTimestamp().'_'.$_FILES['cv']['name']:'';
+      $cvTmp=$_FILES['cv']['tmp_name']; 
 
-
-
-      $query = $connection->prepare("INSERT INTO tbl_employees(id, firstName, lastName, photo, cv, idJob, startedAt) VALUES (NULL,'$firstName','$lastName','$archivePhotoName ','$cvName','$roleID','$dateEntry')");
-      $result = $query->execute();
       if($result){
-        //header('Location:index.php');
+        //Validación de movimiento de archivos
+        if(move_uploaded_file($photoTmp,"./employess_photos/".$archivePhotoName) 
+           && move_uploaded_file($cvTmp,"./employees_cv/".$fileCvName)){
+            //Preparando query para inserción de datos
+            $query = $connection->prepare("INSERT INTO tbl_employees(id, firstName, lastName, photo, cv, idJob, startedAt) VALUES (NULL,'$firstName','$lastName','$archivePhotoName ','$fileCvName','$roleID','$dateEntry')");
+            $result = $query->execute();
+          header('Location:index.php');
+        }else{
+          echo 'Something went wrong moving the files';
+        }
       }else{
         echo 'something went wrong';
       }
     }else{
-      echo 'Te falta agregar las imagenes o las fotos';
+      echo 'Te falta agregar las imagenes o el CV';
     }
   }else{
     echo 'Faltan datos por completar';
