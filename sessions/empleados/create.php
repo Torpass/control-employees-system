@@ -16,38 +16,30 @@ if(isset($_POST['btnRegister'])){
       $lastName = $_POST['txtLastname'];
       $roleID = $_POST['txtRole'];
       $dateEntry =$_POST['TxtDateEntry'];
-      $photoName = $_FILES['photo']['name'];
+      $imagen = file_get_contents($_FILES['photo']['tmp_name']);
+      $cv = file_get_contents($_FILES['cv']['tmp_name']);
       $cvName = $_FILES['cv']['name'];
+
 
       $dateFile = new DateTime();
 
       //preparando los nombres que van a tener los archivos (El nombre del archivo origianl + la fecha de ingreso)
 
-      $archivePhotoName = ($photoName!='')?$dateFile->getTimestamp().'_'.$_FILES['photo']['name']:'';
-      $photoTmp=$_FILES['photo']['tmp_name']; 
-
-      $fileCvName = ($cvName!='')?$dateFile->getTimestamp().'_'.$_FILES['cv']['name']:'';
-      $cvTmp=$_FILES['cv']['tmp_name']; 
-
-      if($result){
-        //Validación de movimiento de archivos
-        if(move_uploaded_file($photoTmp,"./employess_photos/".$archivePhotoName) 
-           && move_uploaded_file($cvTmp,"./employees_cv/".$fileCvName)){
-            //Preparando query para inserción de datos
-            $query = $connection->prepare("INSERT INTO tbl_employees(id, firstName, lastName, photo, cv, idJob, startedAt) VALUES (NULL,'$firstName','$lastName','$archivePhotoName ','$fileCvName','$roleID','$dateEntry')");
+        //Preparando query para inserción de datos
+            $query = $connection->prepare("INSERT INTO tbl_employees(id, firstName, lastName, photo, cv, cvName, idJob, startedAt) VALUES (NULL,'$firstName','$lastName',:photo,:cv,'$cvName','$roleID','$dateEntry')");
+            $query->bindParam(':photo', $imagen, PDO::PARAM_LOB);
+            $query->bindParam(':cv', $cv, PDO::PARAM_LOB);
             $result = $query->execute();
-          header('Location:index.php');
-        }else{
-          echo 'Something went wrong moving the files';
-        }
-      }else{
-        echo 'something went wrong';
-      }
+            if($result){
+              header('Location:index.php');
+            }else{
+              echo 'something went wrong';
+            }
     }else{
-      echo 'Te falta agregar las imagenes o el CV';
+      echo 'Te faltan los archivos';
     }
   }else{
-    echo 'Faltan datos por completar';
+    echo 'Te faltan datos';
   }
 }
 ?>

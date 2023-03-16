@@ -3,9 +3,25 @@
 
 
 <?php 
-$query = $connection->prepare("SELECT * FROM tbl_employees");
+$query = $connection->prepare("SELECT * ,(SELECT jobName from tbl_jobs WHERE tbl_jobs.id=tbl_employees.idJob limit 1) as job from tbl_employees");
 $query->execute();
 $tbl_employees= $query->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+
+<?php
+if(isset($_GET['txtID'])){
+    $deleteID = $_GET['txtID'];
+    $query = $connection->prepare("DELETE FROM tbl_employees WHERE id=$deleteID");
+    $query->execute();
+    if($query){
+        header('Location:index.php');
+    }else{
+        echo 'there was a problem';
+    }
+}
+
+
 ?>
 
 
@@ -36,17 +52,19 @@ $tbl_employees= $query->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo $employeesRegister['firstName'];?></td>
                         <td><?php echo $employeesRegister['lastName'];?></td>
                         <td>
-                            <img src="./employess_photos/<?php echo $employeesRegister['photo'];?>" class="img-fluid rounded" width="150" alt="">
+                            <?php
+                            echo '<img width="300px" src="data:image/jpeg;base64,'.base64_encode($employeesRegister['photo']).'"/>';
+                            ?>
                             
                         </td>
-                        <td><?php echo $employeesRegister['cv'];?></td>
-                        <td><?php echo $employeesRegister['idJob'];?></td>
+                        <td><?php echo $employeesRegister['cvName'];?></td>
+                        <td><?php echo $employeesRegister['job'];?></td>
                         <td><?php echo $employeesRegister['startedAt'];?></td>
                         <td>
                                 <a name="" id="" class="btn btn-primary" href="" role="button">Carta</a>
 
                                 <a name="" id="" class="btn btn-info" href="edit.php?txtID=<?php echo $employeesRegister['id']?>" role="button">Edit</a>
-                                |
+                                
                                 <a name="" id="" class="btn btn-danger" href="index.php?txtID=<?php echo $employeesRegister['id']?>" role="button">Delete</a>
                         </td>
                     </tr>
