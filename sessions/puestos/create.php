@@ -4,7 +4,7 @@
 
 
 <?php
-    $conect = new jobs();
+    $conect = new JobCrud();
     if(isset($_POST['btnRegister'])){
         if($_POST['txtJobName'] != null){
             $jobName = $_POST['txtJobName'];

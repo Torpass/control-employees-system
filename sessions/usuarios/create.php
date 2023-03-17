@@ -1,27 +1,32 @@
 <?php include('../../templates/header.php');?>
-<?php include '../../db.php'?> 
+<?php include '../../dbConnections/db.php'?> 
+<?php include '../../dbConnections/dbUsers.php'?> 
 
 <?php
+$connect = new UsersCrud();
+
+
 if(isset($_POST['btnRegister'])){
     if(!empty($_POST['txtPassword']) && !empty($_POST['txtName']) && !empty($_POST['txtEmail'])){
-        $userName = $_POST['txtName'];
-        $userEmail = $_POST['txtEmail'];
-        $userPassword = $_POST['txtPassword'];
-        $query = $connection->prepare("INSERT INTO tbl_users (id, name, password, email) VALUES (NULL, '$userName','$userPassword','$userEmail')");
-        $query->execute();
-        if($query){
-            header('Location:index.php');
+        
+        $email = preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $_POST['txtEmail']) ? $_POST['txtEmail'] : false;
+
+        $name = ctype_alpha(str_replace(' ', '', $_POST['txtName'])) ? $_POST['txtName'] : false;
+
+        $password = preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,}$/', $_POST['txtPassword']) ?$_POST['txtPassword']  : false;
+
+        if($email && $name && $password){
+            $connect->createUser($name,$email,$password);
+            if($connect){
+                header('Location:index.php');
+            }else{ echo 'something went wrong'; }
         }else{
-            echo 'there was a problem';
+            echo 'Ingrsa datos validos';
         }
     }else{
-        echo 'pendejo';
+        echo 'Rellena todos los datos';
     }
-}else{
-    echo 'something wrong';
 }
-
-
 ?>
 
 <br>

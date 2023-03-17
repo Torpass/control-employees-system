@@ -4,7 +4,7 @@
 
 
 <?php
-    $connect = new jobs();
+    $connect = new JobCrud();
 
     if(isset($_GET['txtID'])){
         $idEdit = $_GET['txtID'];

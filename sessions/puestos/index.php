@@ -3,7 +3,7 @@
 <?php include '../../dbConnections/dbJobs.php'?> 
 
 <?php
-$connect = new jobs();
+$connect = new JobCrud();
 $tbl_jobs = $connect->jobView();
 
 if(isset($_GET['txtID'])){

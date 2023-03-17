@@ -1,26 +1,31 @@
 <?php include('../../templates/header.php');?>
-<?php include('../../db.php');?>
-
+<?php include '../../dbConnections/db.php'?> 
+<?php include '../../dbConnections/dbUsers.php'?> 
 <?php
 
 if(isset($_GET['txtID'])){
     $idEdit = $_GET['txtID'];
-    $query = $connection->prepare("SELECT * FROM tbl_users WHERE id = $idEdit");
-    $query->execute();
-    $register = $query->fetch(PDO::FETCH_LAZY);
-
-
+    $connect = new UsersCrud();
+    $register = $connect->getUserById($_GET['txtID']);
+    
     if(isset($_POST['btnUpdate'])){
         if(!empty($_POST['txtPassword']) && !empty($_POST['txtName']) && !empty($_POST['txtEmail'])){
-            $userName = $_POST['txtName'];
-            $userEmail = $_POST['txtEmail'];
-            $userPassword = $_POST['txtPassword'];
 
-            $query = $connection->prepare("UPDATE tbl_users SET name = '$userName', email = '$userEmail', password = '$userPassword' WHERE id = $idEdit");
-            $query->execute();
-            if($query){
-                header('Location:index.php');
+            $email = preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $_POST['txtEmail']) ? $_POST['txtEmail'] : false;
+
+            $name = ctype_alpha(str_replace(' ', '', $_POST['txtName'])) ? $_POST['txtName'] : false;
+
+            $password = preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,}$/', $_POST['txtPassword']) ?$_POST['txtPassword']  : false;
+
+            if($email && $name && $password){
+                $connect->updateUser($idEdit,$name,$email,$password);
+                if($connect){
+                    header('Location:index.php');
+                }else{ echo 'something went wrong'; }
+            }else{
+                echo 'Ingresa datos validos';
             }
+            
         }
     }
 }

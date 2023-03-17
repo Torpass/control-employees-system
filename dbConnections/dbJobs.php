@@ -1,7 +1,7 @@
 <?php
 require_once('db.php');
 
-class jobs extends ConexionSQL{
+class JobCrud extends ConexionSQL{
 
     public function __construct() {
       parent::__construct();

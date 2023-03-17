@@ -1,26 +1,19 @@
 <?php include('../../templates/header.php');?>
-<?php include '../../db.php'?> 
-
-
-
-
+<?php include '../../dbConnections/db.php'?> 
+<?php include '../../dbConnections/dbUsers.php'?> 
 <?php
+$connect = new UsersCrud();
+$tbl_users = $connect->getUsers();
+
 if(isset($_GET['txtID'])){
     $deleteID = $_GET['txtID'];
-    $query = $connection->prepare("DELETE FROM tbl_users WHERE id=$deleteID");
-    $query->execute();
-    if($query){
+    $connect->deleteUser($deleteID);
+    if($connect){
         header('Location:index.php');
     }else{
         echo 'there was a problem';
     }
 }
-
-$query = $connection->prepare("SELECT * FROM tbl_users");
-$query->execute();
-$tbl_users= $query->fetchAll(PDO::FETCH_ASSOC);
-
-
 ?>
 
 
