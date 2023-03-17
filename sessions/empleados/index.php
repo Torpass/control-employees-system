@@ -24,7 +24,6 @@ if(isset($_GET['txtID'])){
 
 ?>
 
-
 <br>
 <div class="card">
     <div class="card-header">
