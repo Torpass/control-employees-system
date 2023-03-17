@@ -2,23 +2,17 @@
 <?php include('../../db.php');?>
 
 <?php
+$connect = new ConexionSQL();
+$tbl_jobs = $connect->jobView();
 
 if(isset($_GET['txtID'])){
     if(isset($_GET['txtID'])?$_GET['txtID']:'');
-    $idEliminar = $_GET['txtID']; 
-    $query = $connection->prepare("DELETE FROM tbl_jobs WHERE id = $idEliminar");
-    $query->execute();
-    if($query){
+    if($connect->jobDelete($_GET['txtID'])){
         header('Location:index.php');
     }else{
         echo 'something went wrong';
     }
 }
-
-$query = $connection->prepare("SELECT * FROM tbl_jobs");
-$query->execute();
-
-$tbl_jobs = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <br>
@@ -38,6 +32,7 @@ $tbl_jobs = $query->fetchAll(PDO::FETCH_ASSOC);
                 </tr>
             </thead>
             <tbody>
+
             <?php foreach ($tbl_jobs as $register ){?>
 
                 <tr class="">
@@ -60,7 +55,4 @@ $tbl_jobs = $query->fetchAll(PDO::FETCH_ASSOC);
         Footer
     </div>
 </div>
-
-
-
 <?php include('../../templates/footer.php');?>

@@ -2,29 +2,22 @@
 <?php include('../../db.php');?>
 
 <?php
-if(isset($_GET['txtID'])){
-    $idEdit = $_GET['txtID'];
-    $query = $connection->prepare("SELECT * FROM tbl_jobs WHERE id = $idEdit");
-    $query->execute();
+    $connect = new ConexionSQL();
 
-    $register = $query->fetch(PDO::FETCH_LAZY);
-    $jobName = $register['jobName'];
+    if(isset($_GET['txtID'])){
+        $idEdit = $_GET['txtID'];
+        $job = $connect->getJobById($idEdit);
 
-    if(isset($_POST['btnUpdate'])){
-        if($_POST['txtJobName'] != null){
-            $jobNameEdit = $_POST['txtJobName'];
-            $query  = $connection->prepare("UPDATE tbl_jobs SET jobName = '$jobNameEdit' WHERE id= '$idEdit' ");
-            $query->execute();
-            if($query){
-                echo 'nice';
-                header('Location:index.php');
-            }else{
-                echo 'something wrong';
+        if(isset($_POST['btnUpdate'])){
+            if($_POST['txtJobName'] != null){
+                $jobNameEdit = $_POST['txtJobName'];
+                if($connect->jobEdit($idEdit, $jobNameEdit)){
+                    header('Location:index.php');
+                }else{
+                    echo 'You need to add a valid Job name';
+                }
             }
-        }else{
-            echo 'You need to add a valid Job name';
         }
-    }
 }
 
 
@@ -48,7 +41,7 @@ if(isset($_GET['txtID'])){
             <div class="mb-3">
               <label for="" class="form-label">Job name:</label>
               <input type="text"
-                value = "<?php echo $jobName?>"
+                value = "<?php echo $job['jobName']?>"
                 class="form-control" name="txtJobName" id="" aria-describedby="helpId" placeholder="Job name">
             </div>
 

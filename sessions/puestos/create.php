@@ -2,14 +2,15 @@
 <?php include('../../db.php');?>
 
 <?php
+$conect = new ConexionSQL();
+
 
 if(isset($_POST['btnRegister'])){
     if($_POST['txtJobName'] != null){
         $jobName = $_POST['txtJobName'];
-        $query  = $connection->prepare("INSERT INTO tbl_jobs (jobName) VALUES ('$jobName')");
-        $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_OBJ); 
-        header('Location:index.php');
+        if($conect->jobInsert($jobName)){
+            header('Location:index.php');
+        }
     }else{
         echo 'You need to add a valid Job name';
     }
