@@ -1,20 +1,20 @@
 <?php include('../../templates/header.php');?>
-<?php include('../../db.php');?>
+<?php include '../../dbConnections/db.php'?> 
+<?php include '../../dbConnections/dbJobs.php'?> 
+
 
 <?php
-$conect = new ConexionSQL();
-
-
-if(isset($_POST['btnRegister'])){
-    if($_POST['txtJobName'] != null){
-        $jobName = $_POST['txtJobName'];
-        if($conect->jobInsert($jobName)){
-            header('Location:index.php');
+    $conect = new jobs();
+    if(isset($_POST['btnRegister'])){
+        if($_POST['txtJobName'] != null){
+            $jobName = $_POST['txtJobName'];
+            if($conect->jobInsert($jobName)){
+                header('Location:index.php');
+            }
+        }else{
+            echo 'You need to add a valid Job name';
         }
-    }else{
-        echo 'You need to add a valid Job name';
     }
-}
 ?>
 
 

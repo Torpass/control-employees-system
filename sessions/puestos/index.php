@@ -1,8 +1,9 @@
 <?php include('../../templates/header.php');?>
-<?php include('../../db.php');?>
+<?php include '../../dbConnections/db.php'?> 
+<?php include '../../dbConnections/dbJobs.php'?> 
 
 <?php
-$connect = new ConexionSQL();
+$connect = new jobs();
 $tbl_jobs = $connect->jobView();
 
 if(isset($_GET['txtID'])){

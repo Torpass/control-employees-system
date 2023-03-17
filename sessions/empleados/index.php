@@ -1,5 +1,6 @@
 <?php include('../../templates/header.php');?>
-<?php include '../../db.php'?> 
+<?php include '../../dbConnections/db.php'?> 
+<?php include '../../dbConnections/dbJobs.php'?> 
 
 
 <?php 
