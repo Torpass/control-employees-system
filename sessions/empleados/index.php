@@ -1,28 +1,18 @@
 <?php include('../../templates/header.php');?>
 <?php include '../../dbConnections/db.php'?> 
-<?php include '../../dbConnections/dbJobs.php'?> 
+<?php include '../../dbConnections/dbEmployees.php'?> 
 
 
 <?php 
-$query = $connection->prepare("SELECT * ,(SELECT jobName from tbl_jobs WHERE tbl_jobs.id=tbl_employees.idJob limit 1) as job from tbl_employees");
-$query->execute();
-$tbl_employees= $query->fetchAll(PDO::FETCH_ASSOC);
-
-?>
-
-<?php
+$connect = new EmployeeCrud();
+$tbl_employees = $connect->getEmployees();
 if(isset($_GET['txtID'])){
-    $deleteID = $_GET['txtID'];
-    $query = $connection->prepare("DELETE FROM tbl_employees WHERE id=$deleteID");
-    $query->execute();
-    if($query){
+    if($connect->deleteEmployee($_GET['txtID'])){
         header('Location:index.php');
     }else{
-        echo 'there was a problem';
+        echo 'Something went wrong';
     }
 }
-
-
 ?>
 
 <br>

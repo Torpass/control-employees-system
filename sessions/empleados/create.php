@@ -1,40 +1,40 @@
 <?php include('../../templates/header.php');?>
-<?php include('../../db.php');?>
+<?php include '../../dbConnections/db.php'?> 
+<?php include '../../dbConnections/dbEmployees.php'?> 
+<?php include '../../dbConnections/dbJobs.php'?> 
 
 
 <?php
-$query = $connection->prepare("SELECT * FROM tbl_jobs");
-$query->execute();
-$tbl_jobs = $query->fetchAll(PDO::FETCH_ASSOC);
-
+$jobs= new JobCrud();
+$tbl_jobs= $jobs->jobView(); 
+$connect = new EmployeeCrud();
 
 if(isset($_POST['btnRegister'])){
   if(!empty($_POST['txtFirstname']) && !empty($_POST['txtLastname']) && !empty($_POST['txtRole']) && !empty($_POST['TxtDateEntry'])){
     if(!empty($_FILES['photo']['name']) && !empty($_FILES['cv']['name'])){
-      //recepción de datos
-      $firstName = $_POST['txtFirstname'];
-      $lastName = $_POST['txtLastname'];
+
+      //recepción de datos con validaciones numericas 
+      $firstName = ctype_alpha(str_replace(' ', '', $_POST['txtFirstname'])) ? $_POST['txtFirstname'] : false;  
+      $lastName = ctype_alpha(str_replace(' ', '', $_POST['txtLastname'])) ? $_POST['txtLastname'] : false;  
+
       $roleID = $_POST['txtRole'];
       $dateEntry =$_POST['TxtDateEntry'];
-      $imagen = file_get_contents($_FILES['photo']['tmp_name']);
+      $photo = file_get_contents($_FILES['photo']['tmp_name']);
       $cv = file_get_contents($_FILES['cv']['tmp_name']);
       $cvName = $_FILES['cv']['name'];
 
 
-      $dateFile = new DateTime();
+      //Preparando query para inserción de datos
+      if($firstName && $lastName){
+        $connect->createEmployee($firstName, $lastName,$photo, $cv, $cvName, $roleID, $dateEntry);
+        if($connect){
+          header('Location:index.php');
+        }else{
+            print_r($connect);
+      }
+      }
+      
 
-      //preparando los nombres que van a tener los archivos (El nombre del archivo origianl + la fecha de ingreso)
-
-        //Preparando query para inserción de datos
-            $query = $connection->prepare("INSERT INTO tbl_employees(id, firstName, lastName, photo, cv, cvName, idJob, startedAt) VALUES (NULL,'$firstName','$lastName',:photo,:cv,'$cvName','$roleID','$dateEntry')");
-            $query->bindParam(':photo', $imagen, PDO::PARAM_LOB);
-            $query->bindParam(':cv', $cv, PDO::PARAM_LOB);
-            $result = $query->execute();
-            if($result){
-              header('Location:index.php');
-            }else{
-              echo 'something went wrong';
-            }
     }else{
       echo 'Te faltan los archivos';
     }
