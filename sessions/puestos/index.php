@@ -24,7 +24,7 @@ if(isset($_GET['txtID'])){
     </div>
     <div class="card-body">
         <div class="table-responsive">
-        <table class="table table-striped table-bordered table-hover">
+        <table class="table table-striped table-bordered table-hover" id="tablaID">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -33,9 +33,7 @@ if(isset($_GET['txtID'])){
                 </tr>
             </thead>
             <tbody>
-
             <?php foreach ($tbl_jobs as $register ){?>
-
                 <tr class="">
                     <td scope="row"><?php echo  $register['id'];?></td>
                     <td><?php echo  $register['jobName'];?></td>
@@ -45,9 +43,7 @@ if(isset($_GET['txtID'])){
                             <a name="" id="" class="btn btn-danger" href="index.php?txtID=<?php echo  $register['id'];?>" role="button">Delete</a>
                     </td>
                 </tr>
-
             <?php }?>
-            
             </tbody>
         </table>
     </div>

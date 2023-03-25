@@ -21,7 +21,7 @@ if(isset($_POST['btnRegister'])){
                 header('Location:index.php');
             }else{ echo 'something went wrong'; }
         }else{
-            echo 'Ingrsa datos validos';
+            echo 'Ingresa datos validos';
         }
     }else{
         echo 'Rellena todos los datos';

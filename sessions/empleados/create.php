@@ -30,7 +30,7 @@ if(isset($_POST['btnRegister'])){
         if($connect){
           header('Location:index.php');
         }else{
-            print_r($connect);
+            echo 'something went wrong with connection';
       }
       }
       

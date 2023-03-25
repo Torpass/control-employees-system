@@ -25,7 +25,7 @@ if(isset($_GET['txtID'])){
     </div>
     <div class="card-body">
         <div class="table-responsive">
-        <table class="table table-striped table-bordered table-hover">
+        <table class="table table-striped table-bordered table-hover" id='tablaID'>
             <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -35,8 +35,8 @@ if(isset($_GET['txtID'])){
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
-            <?php foreach ($tbl_users as $userRegister){?>
             <tbody>
+            <?php foreach ($tbl_users as $userRegister){?>
                 <tr class="">
                     <td scope="row"><?php echo $userRegister['id'];?></td>
                     <td><?php echo $userRegister['name'];?></td>
@@ -48,8 +48,8 @@ if(isset($_GET['txtID'])){
                             <a name="" id="" class="btn btn-danger" href="index.php?txtID=<?php echo $userRegister['id']?>" role="button">Delete</a>
                         </td>
                 </tr>
-            </tbody>
             <?php }?>
+            </tbody>
         </table>
     </div>
     </div>

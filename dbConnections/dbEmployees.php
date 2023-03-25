@@ -39,7 +39,7 @@ class EmployeeCrud extends ConexionSQL{
         if($query->execute()){
             return true;
         }else {  
-            return $query->errorInfo();
+            return false;
         }
     }
 
