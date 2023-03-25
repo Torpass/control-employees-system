@@ -47,11 +47,17 @@ if(isset($_GET['txtID'])){
                 ?>
                 
             </td>
-            <td><?php echo $employeesRegister['cvName'];?></td>
+            <td>
+            <?php 
+                $base64_pdf = base64_encode($employeesRegister['cv']);
+                $pdf_url = 'data:application/pdf;base64,'.$base64_pdf;
+                echo '<a href="#" onclick="window.open(\''.$pdf_url.'\', \'_blank\');">Ver CV</a>';
+            ?>
+            </td>
             <td><?php echo $employeesRegister['job'];?></td>
             <td><?php echo $employeesRegister['startedAt'];?></td>
             <td>
-                <a name="" id="" class="btn btn-primary" href="" role="button">Carta</a>
+                <a name="" id="" class="btn btn-primary" href="carta_recomendacion.php?txtID=<?php echo $employeesRegister['id']?>" role="button">Carta</a>
 
                 <a name="" id="" class="btn btn-info" href="edit.php?txtID=<?php echo $employeesRegister['id']?>" role="button">Edit</a>
                 
