@@ -21,7 +21,8 @@ if(isset($_GET['txtID'])){
     <title>Carta de Recomendacion</title>
 </head>
 <body>
-    <h1>Carta de recomendacion laboral</h1>
+    <h1>Carta de recomendacion laboral</h1>     
+    <p>Barquisimeto Lara, Venezuela a  <strong><?php echo date('d-M-Y')?></strong></p>
     <p>Estimado/a <strong>[Nombre del destinatario]</strong>,</p>
     <p>Me complace recomendar con entusiasmo a <strong><?php echo $employee['firstName'].' '.$employee['lastName']?></strong> para cualquier oportunidad laboral que pueda estar buscando. <strong><?php echo $employee['firstName']?></strong> ha sido un/a miembro/a valioso/a de nuestro equipo desde su fecha de inicio en <strong>Grows company</strong> en <strong><?php echo $employee['startedAt']?></strong>. Durante su tiempo con nosotros, ha ocupado el puesto de <strong><?php echo $employee['job']?></strong>.</p>
     <p>Durante su tiempo en <strong>Grows company</strong>, <strong><?php echo $employee['firstName']?></strong> demostró una gran habilidad para llevar a cabo sus tareas de manera efectiva y eficiente, y siempre ha cumplido con los objetivos y metas asignados. Además, ha demostrado ser una persona altamente confiable, responsable y comprometida con su trabajo.</p>

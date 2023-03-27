@@ -18,7 +18,7 @@ if(isset($_POST['btnRegister'])){
         if($email && $name && $password){
             $connect->createUser($name,$email,$password);
             if($connect){
-                header('Location:index.php');
+                header('Location:index.php?message='.'User created successfully');
             }else{ echo 'something went wrong'; }
         }else{
             echo 'Ingresa datos validos';

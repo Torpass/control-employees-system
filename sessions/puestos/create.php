@@ -9,7 +9,7 @@
         if($_POST['txtJobName'] != null){
             $jobName = $_POST['txtJobName'];
             if($conect->jobInsert($jobName)){
-                header('Location:index.php');
+                header('Location:index.php?message=Job added successfully');
             }
         }else{
             echo 'You need to add a valid Job name';

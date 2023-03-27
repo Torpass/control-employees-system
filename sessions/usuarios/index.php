@@ -1,6 +1,20 @@
 <?php include('../../templates/header.php');?>
 <?php include '../../dbConnections/db.php'?> 
 <?php include '../../dbConnections/dbUsers.php'?> 
+
+
+<?php if(isset($_GET['message'])) { ?>
+    <script>
+        Swal.fire({
+            icon: "success",
+            title: "<?php echo $_GET['message'];?>",
+            showConfirmButton: false,
+            timer: 1500 
+        });
+    </script>
+<?php } ?>
+
+
 <?php
 $connect = new UsersCrud();
 $tbl_users = $connect->getUsers();
@@ -45,7 +59,7 @@ if(isset($_GET['txtID'])){
                     <td>
                             <a name="" id="" class="btn btn-info" href="edit.php?txtID=<?php echo $userRegister['id']?>" role="button">Edit</a>
                             |
-                            <a name="" id="" class="btn btn-danger" href="index.php?txtID=<?php echo $userRegister['id']?>" role="button">Delete</a>
+                            <a name="" id="" class="btn btn-danger" href="javascript:Delete(<?php echo $userRegister['id']?>)" role="button">Delete</a>
                         </td>
                 </tr>
             <?php }?>
@@ -58,6 +72,24 @@ if(isset($_GET['txtID'])){
     </div>
 </div>
 
+
+<script>
+    function Delete(id){
+        Swal.fire({
+            title: '¿Seguro que quieres eliminar este empleado?',
+            text: "No lo vas a poder revertir!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Eliminar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "index.php?txtID="+id;
+            }
+        })
+    }
+</script>
 
 
 <?php include('../../templates/footer.php');?>

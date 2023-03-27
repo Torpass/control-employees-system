@@ -13,9 +13,10 @@ if(isset($_POST['btnRegister'])){
   if(!empty($_POST['txtFirstname']) && !empty($_POST['txtLastname']) && !empty($_POST['txtRole']) && !empty($_POST['TxtDateEntry'])){
     if(!empty($_FILES['photo']['name']) && !empty($_FILES['cv']['name'])){
 
-      //recepción de datos con validaciones numericas 
-      $firstName = ctype_alpha(str_replace(' ', '', $_POST['txtFirstname'])) ? $_POST['txtFirstname'] : false;  
-      $lastName = ctype_alpha(str_replace(' ', '', $_POST['txtLastname'])) ? $_POST['txtLastname'] : false;  
+      //recepción de datos con validaciones numericas y en español
+      $firstName = preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/', $_POST['txtFirstname']) ? $_POST['txtFirstname'] : false;
+
+      $lastName = preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/', $_POST['txtLastname']) ? $_POST['txtLastname'] : false;
 
       $roleID = $_POST['txtRole'];
       $dateEntry =$_POST['TxtDateEntry'];
@@ -27,14 +28,14 @@ if(isset($_POST['btnRegister'])){
       //Preparando query para inserción de datos
       if($firstName && $lastName){
         $connect->createEmployee($firstName, $lastName,$photo, $cv, $cvName, $roleID, $dateEntry);
-        if($connect){
-          header('Location:index.php');
-        }else{
-            echo 'something went wrong with connection';
+          if($connect){
+            header('Location:index.php?message='.'Employee added successfully');
+          }else{
+              echo 'something went wrong with connection';
+          }
+      }else{
+        echo 'Something went wrong with the data';
       }
-      }
-      
-
     }else{
       echo 'Te faltan los archivos';
     }

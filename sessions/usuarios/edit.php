@@ -20,7 +20,7 @@ if(isset($_GET['txtID'])){
             if($email && $name && $password){
                 $connect->updateUser($idEdit,$name,$email,$password);
                 if($connect){
-                    header('Location:index.php');
+                    header('Location:index.php?message='.'User updated successfully');
                 }else{ echo 'something went wrong'; }
             }else{
                 echo 'Ingresa datos validos';

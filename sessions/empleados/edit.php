@@ -38,7 +38,7 @@ $connect = new EmployeeCrud();
 
             $connect->updateEmployee($idEdit, $firstName, $lastName, $photo, $cv, $cvName, $roleID, $dateEntry);
             if($connect){
-              header('Location:index.php');
+              header('Location:index.php?message='.'Employee updated successfully');
               exit();
             }else {echo 'something went wrong';}
           }else{ echo 'Rellene todos los datos';}

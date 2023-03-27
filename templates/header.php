@@ -1,11 +1,16 @@
 <?php
+session_start();
+if(!isset($_SESSION['user'])){
+    header('Location: http://localhost:90/complex_project/login.php');
+    die();
+}
 $base_url = 'http://localhost:90/complex_project/';
 ?>
 <!doctype html>
 <html lang="en">
 
 <head>
-  <title>Hola mundo</title>
+  <title>Grows system </title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -20,6 +25,9 @@ $base_url = 'http://localhost:90/complex_project/';
   <!-- Datatable integration -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css"/>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+
+  <!-- Sweetalert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -39,7 +47,7 @@ $base_url = 'http://localhost:90/complex_project/';
                 <a class="nav-link" href="<?php echo $base_url?>sessions/usuarios/index.php">Usuarios</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Cerrar sesión</a>
+                <a class="nav-link" href="<?php echo $base_url?>logout.php"">Cerrar sesión</a>
             </li>
         </ul>
     </nav>

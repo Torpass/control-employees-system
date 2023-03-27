@@ -3,12 +3,24 @@
 <?php include '../../dbConnections/dbEmployees.php'?> 
 
 
+<?php if(isset($_GET['message'])) { ?>
+    <script>
+        Swal.fire({
+            icon: "success",
+            title: "<?php echo $_GET['message'];?>",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
+<?php } ?>
+
 <?php 
 $connect = new EmployeeCrud();
 $tbl_employees = $connect->getEmployees();
 if(isset($_GET['txtID'])){
     if($connect->deleteEmployee($_GET['txtID'])){
-        header('Location:index.php');
+        $message = 'Employee deleted successfully';
+        header('Location:index.php?message='.$message);
     }else{
         echo 'Something went wrong';
     }
@@ -52,6 +64,7 @@ if(isset($_GET['txtID'])){
                 $base64_pdf = base64_encode($employeesRegister['cv']);
                 $pdf_url = 'data:application/pdf;base64,'.$base64_pdf;
                 echo '<a href="#" onclick="window.open(\''.$pdf_url.'\', \'_blank\');">Ver CV</a>';
+
             ?>
             </td>
             <td><?php echo $employeesRegister['job'];?></td>
@@ -61,7 +74,7 @@ if(isset($_GET['txtID'])){
 
                 <a name="" id="" class="btn btn-info" href="edit.php?txtID=<?php echo $employeesRegister['id']?>" role="button">Edit</a>
                 
-                <a name="" id="" class="btn btn-danger" href="index.php?txtID=<?php echo $employeesRegister['id']?>" role="button">Delete</a>
+                <a name="" id="" class="btn btn-danger" href="javascript:Delete(<?php echo $employeesRegister['id']?>)" role="button">Delete</a>
             </td>
         </tr>
         <?php }?>
@@ -73,4 +86,24 @@ if(isset($_GET['txtID'])){
         Footer
     </div>
 </div>
+
+
+<script>
+    function Delete(id){
+        Swal.fire({
+            title: '¿Seguro que quieres eliminar este empleado?',
+            text: "No lo vas a poder revertir!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Eliminar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "index.php?txtID="+id;
+            }
+})
+    }
+</script>
+
 <?php include('../../templates/footer.php');?>

@@ -5,7 +5,6 @@
 
 <?php
     $connect = new JobCrud();
-
     if(isset($_GET['txtID'])){
         $idEdit = $_GET['txtID'];
         $job = $connect->getJobById($idEdit);
@@ -14,7 +13,7 @@
             if($_POST['txtJobName'] != null){
                 $jobNameEdit = $_POST['txtJobName'];
                 if($connect->jobEdit($idEdit, $jobNameEdit)){
-                    header('Location:index.php');
+                    header('Location:index.php?message='.'Job updated successfully');
                 }else{
                     echo 'You need to add a valid Job name';
                 }
